@@ -13,7 +13,7 @@ namespace Middleware.Test
     {
         [Fact]
         public async Task when_ApiException_raised_it_should_return_Conflict_http_status_code()
-        {
+        {  
             const string displayMessage = "EntityNotFound";
             const int errorCode = -1;
 
@@ -24,18 +24,22 @@ namespace Middleware.Test
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
 
+           
             await middleware.Invoke(context);
+
+
 
             context.Response.Body.Seek(0, SeekOrigin.Begin);
             var reader = new StreamReader(context.Response.Body);
             var streamText = reader.ReadToEnd();
             var objResponse = streamText.To<ApiExceptionContent>();
 
+
             context.Response.StatusCode
                 .Should()
                 .Be((int) HttpStatusCode.Conflict);
 
-            objResponse.DisplayMessageMessage
+            objResponse.DisplayMessage
                 .Should()
                 .Be(displayMessage);
 

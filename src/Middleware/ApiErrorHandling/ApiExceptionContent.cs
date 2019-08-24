@@ -9,11 +9,11 @@
         {
             ErrorCode = apiException.ErrorCode;
             Message = apiException.Message;
-            DisplayMessageMessage = apiException.DisplayMessage;
+            DisplayMessage = apiException.DisplayMessage;
         }
 
         public int ErrorCode { get; set; }
         public string Message { get; set; }
-        public string DisplayMessageMessage { get; set; }
+        public string DisplayMessage { get; set; }
     }
 }
