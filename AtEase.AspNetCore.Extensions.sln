@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMiddleware", "AspNetCoreMiddleware\AspNetCoreMiddleware.csproj", "{7F650E14-9585-4D64-ACC7-50B4C449AF8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Middleware", "src\Middleware\Middleware.csproj", "{7F650E14-9585-4D64-ACC7-50B4C449AF8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMiddleware.Test", "AspNetCoreMiddleware.Test\AspNetCoreMiddleware.Test.csproj", "{845DC8CE-B5FE-48A9-9ACE-BAB669799363}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Middleware.Test", "tests\Middleware.Test\Middleware.Test.csproj", "{845DC8CE-B5FE-48A9-9ACE-BAB669799363}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{61B7461A-E5C9-4578-837F-FAC6166A2A97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5CAA6634-0B67-462F-BA14-8A4150C0753A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +28,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7F650E14-9585-4D64-ACC7-50B4C449AF8D} = {61B7461A-E5C9-4578-837F-FAC6166A2A97}
+		{845DC8CE-B5FE-48A9-9ACE-BAB669799363} = {5CAA6634-0B67-462F-BA14-8A4150C0753A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FCE21FB1-EF17-4783-98D8-787544CD1CBF}

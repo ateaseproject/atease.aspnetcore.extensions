@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspNetCoreMiddleware\AspNetCoreMiddleware.csproj" />
+    <ProjectReference Include="..\..\src\Middleware\Middleware.csproj" />
   </ItemGroup>
 
 </Project>
