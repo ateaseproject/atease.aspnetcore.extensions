@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMiddleware", "AspNetCoreMiddleware\AspNetCoreMiddleware.csproj", "{7F650E14-9585-4D64-ACC7-50B4C449AF8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMiddleware.Test", "AspNetCoreMiddleware.Test\AspNetCoreMiddleware.Test.csproj", "{845DC8CE-B5FE-48A9-9ACE-BAB669799363}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F650E14-9585-4D64-ACC7-50B4C449AF8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F650E14-9585-4D64-ACC7-50B4C449AF8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F650E14-9585-4D64-ACC7-50B4C449AF8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F650E14-9585-4D64-ACC7-50B4C449AF8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{845DC8CE-B5FE-48A9-9ACE-BAB669799363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{845DC8CE-B5FE-48A9-9ACE-BAB669799363}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{845DC8CE-B5FE-48A9-9ACE-BAB669799363}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{845DC8CE-B5FE-48A9-9ACE-BAB669799363}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FCE21FB1-EF17-4783-98D8-787544CD1CBF}
+	EndGlobalSection
+EndGlobal
