@@ -4,7 +4,7 @@ namespace Middleware.Test
 {
     public class EntityNotFoundException : ApiException
     {
-        public EntityNotFoundException():base("EntityNotFound", -1)
+        public EntityNotFoundException(string displayMessage, int errorCode):base(displayMessage, errorCode)
         {
         }
     }

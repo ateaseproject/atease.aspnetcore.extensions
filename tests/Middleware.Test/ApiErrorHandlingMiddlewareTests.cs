@@ -5,25 +5,21 @@ using AtEase.AspNetCore.Extensions.Middleware;
 using AtEase.Newtonsoft.Json;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace Middleware.Test
 {
-    public class ApiErrorHandlingTest
+    public class ApiErrorHandlingMiddlewareTests
     {
-        public ApiErrorHandlingTest()
-        {
-            _logger = new FakeLogger();
-        }
-
-        private readonly ILogger _logger;
-
         [Fact]
-        public async Task BeValidExceptionType_ApiException_ConflictStatus()
+        public async Task when_ApiException_raised_it_should_return_Conflict_http_status_code()
         {
+            const string displayMessage = "EntityNotFound";
+            const int errorCode = -1;
+
             var middleware =
-                new ApiErrorHandlingMiddleware(innerHttpContext => throw new EntityNotFoundException(), _logger);
+                new ApiErrorHandlingMiddleware(
+                    innerHttpContext => throw new EntityNotFoundException(displayMessage, errorCode), new FakeLogger());
 
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
@@ -39,20 +35,24 @@ namespace Middleware.Test
                 .Should()
                 .Be((int) HttpStatusCode.Conflict);
 
-            objResponse.UiMessage
+            objResponse.DisplayMessageMessage
                 .Should()
-                .Be("EntityNotFound");
+                .Be(displayMessage);
 
             objResponse.ErrorCode
                 .Should()
-                .Be(-1);
+                .Be(errorCode);
         }
 
         [Fact]
-        public async Task BeValidExceptionType_ApiValidationException_BadRequestStatus()
+        public async Task when_ApiValidationException_raised_it_should_return_BadRequest_http_status_code()
         {
+            const string fieldName = "Title";
+            const string error = "DuplicatedWithTitle";
+
             var middleware =
-                new ApiErrorHandlingMiddleware(innerHttpContext => throw new DuplicateTitleException(), _logger);
+                new ApiErrorHandlingMiddleware(innerHttpContext => throw new DuplicateTitleException(fieldName, error),
+                    new FakeLogger());
 
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
@@ -66,11 +66,11 @@ namespace Middleware.Test
 
             context.Response.StatusCode
                 .Should()
-                .Be((int)HttpStatusCode.BadRequest);
+                .Be((int) HttpStatusCode.BadRequest);
 
-            objResponse.ModelState["Title"][0]
+            objResponse.ModelState[fieldName][0]
                 .Should()
-                .Be("DuplicatedWithTitle");
+                .Be(error);
         }
     }
 }

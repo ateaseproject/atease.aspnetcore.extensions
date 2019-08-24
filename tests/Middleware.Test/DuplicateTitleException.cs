@@ -9,7 +9,7 @@ namespace Middleware.Test
         {
         }
 
-        public DuplicateTitleException() : base("Title", "DuplicatedWithTitle")
+        public DuplicateTitleException(string fieldName, string error) : base(fieldName, error)
         {
         }
     }

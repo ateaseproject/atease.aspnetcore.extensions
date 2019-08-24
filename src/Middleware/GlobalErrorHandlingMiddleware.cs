@@ -34,7 +34,7 @@ namespace AtEase.AspNetCore.Extensions.Middleware
             }
             catch (Exception e)
             {
-                _logger.LogError("Error caught in {0}:  {1}", nameof(GlobalErrorHandlingMiddleware), e);
+                _logger.LogError("Unexpected error caught in {0}:  {1}", nameof(GlobalErrorHandlingMiddleware), e);
                 throw;
             }
         }
