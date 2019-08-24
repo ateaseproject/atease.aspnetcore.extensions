@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>AtEase.AspNetCore.Extensions.Middleware</RootNamespace>
+    <Authors>Ahmad.Chehreghani, MohammadMahdi.Sadeghi</Authors>
   </PropertyGroup>
 
   <ItemGroup>

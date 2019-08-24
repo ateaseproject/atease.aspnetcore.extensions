@@ -1,11 +1,10 @@
-﻿using AtEase.AspNetCore.Extensions.Middleware;
+﻿using System;
+using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
 
 namespace Middleware.Test
 {
-    public class EntityNotFoundException : ApiException
+    [ApiException("EntityNotFound", -1)]
+    public class EntityNotFoundException : Exception
     {
-        public EntityNotFoundException(string displayMessage, int errorCode):base(displayMessage, errorCode)
-        {
-        }
     }
 }
