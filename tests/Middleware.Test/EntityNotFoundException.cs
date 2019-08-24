@@ -1,6 +1,6 @@
-﻿using AspNetCoreMiddleware.ApiErrorHandling;
+﻿using AtEase.AspNetCore.Extensions.Middleware;
 
-namespace AspNetCoreMiddleware.Test
+namespace Middleware.Test
 {
     public class EntityNotFoundException : ApiException
     {

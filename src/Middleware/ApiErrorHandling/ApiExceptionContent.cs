@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreMiddleware.ApiErrorHandling
+﻿namespace AtEase.AspNetCore.Extensions.Middleware
 {
     public class ApiExceptionContent
     {

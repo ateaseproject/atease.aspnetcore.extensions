@@ -4,22 +4,23 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace AspNetCoreMiddleware.ApiErrorHandling
+namespace AtEase.AspNetCore.Extensions.Middleware
 {
-    public static class ErrorHandlingMiddlewareExtension
+    public static class GlobalErrorHandlingMiddlewareExtension
     {
-        public static IApplicationBuilder UseErrorHandlingMiddleware(this IApplicationBuilder builder, ILogger logger)
+        public static IApplicationBuilder UseGlobalErrorHandlingMiddleware(this IApplicationBuilder builder,
+            ILogger logger)
         {
-            return builder.UseMiddleware<ErrorHandlingMiddleware>(logger);
+            return builder.UseMiddleware<GlobalErrorHandlingMiddleware>(logger);
         }
     }
 
-    public class ErrorHandlingMiddleware
+    public class GlobalErrorHandlingMiddleware
     {
         private readonly ILogger _logger;
         private readonly RequestDelegate _next;
 
-        public ErrorHandlingMiddleware(RequestDelegate next, ILogger logger)
+        public GlobalErrorHandlingMiddleware(RequestDelegate next, ILogger logger)
         {
             _next = next;
             _logger = logger;
@@ -33,7 +34,7 @@ namespace AspNetCoreMiddleware.ApiErrorHandling
             }
             catch (Exception e)
             {
-                _logger.LogError("Error happend! {0}", e);
+                _logger.LogError("Error caught in {0}:  {1}", nameof(GlobalErrorHandlingMiddleware), e);
                 throw;
             }
         }

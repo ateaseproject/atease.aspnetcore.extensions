@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AspNetCoreMiddleware.ApiErrorHandling
+namespace AtEase.AspNetCore.Extensions.Middleware
 {
     public abstract class ApiException : Exception
     {

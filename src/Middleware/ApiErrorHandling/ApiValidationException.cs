@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AspNetCoreMiddleware.ApiErrorHandling
+namespace AtEase.AspNetCore.Extensions.Middleware
 {
     public class ApiValidationException : Exception
     {

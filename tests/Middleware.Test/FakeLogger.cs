@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace AspNetCoreMiddleware.Test
+namespace Middleware.Test
 {
     public class FakeLogger : ILogger
     {

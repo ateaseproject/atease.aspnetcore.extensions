@@ -1,14 +1,14 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using AspNetCoreMiddleware.ApiErrorHandling;
+using AtEase.AspNetCore.Extensions.Middleware;
 using AtEase.Newtonsoft.Json;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace AspNetCoreMiddleware.Test
+namespace Middleware.Test
 {
     public class ApiErrorHandlingTest
     {

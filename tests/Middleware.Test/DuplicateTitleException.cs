@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using AspNetCoreMiddleware.ApiErrorHandling;
+using AtEase.AspNetCore.Extensions.Middleware;
 
-namespace AspNetCoreMiddleware.Test
+namespace Middleware.Test
 {
     public class DuplicateTitleException : ApiValidationException
     {

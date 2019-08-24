@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>AtEase.AspNetCore.Extensions.Middleware</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
