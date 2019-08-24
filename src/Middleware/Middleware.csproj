@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>AtEase.AspNetCore.Extensions.Middleware</RootNamespace>
+    <PackageId>AtEase.AspNetCore.Extensions.Middleware</PackageId>
+    <Authors>@ease</Authors>
+    <Company>ease</Company>
+    <Product>@ease</Product>
+    <PackageProjectUrl>https://github.com/ateaseproject/atease.aspnetcore.extensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ateaseproject/atease.aspnetcore.extensions</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
