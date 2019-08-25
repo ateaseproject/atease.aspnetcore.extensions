@@ -1,16 +1,10 @@
-﻿using System.Collections.Generic;
-using AtEase.AspNetCore.Extensions.Middleware;
+﻿using System;
+using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
 
 namespace Middleware.Test
 {
-    public class DuplicateTitleException : ApiValidationException
+    [ApiValidationException("Title", "DuplicatedWithTitle")]
+    public class DuplicateTitleException : Exception
     {
-        public DuplicateTitleException(Dictionary<string, string[]> modelState) : base(modelState)
-        {
-        }
-
-        public DuplicateTitleException(string fieldName, string error) : base(fieldName, error)
-        {
-        }
     }
 }

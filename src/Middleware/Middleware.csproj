@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>AtEase.AspNetCore.Extensions.Middleware</RootNamespace>
     <PackageId>AtEase.AspNetCore.Extensions.Middleware</PackageId>
-    <Authors>@ease</Authors>
+    <Authors>Ahmad.Chehreghani, MohammadMahdi.Sadeghi</Authors>
     <Company>ease</Company>
     <Product>@ease</Product>
     <PackageProjectUrl>https://github.com/ateaseproject/atease.aspnetcore.extensions</PackageProjectUrl>

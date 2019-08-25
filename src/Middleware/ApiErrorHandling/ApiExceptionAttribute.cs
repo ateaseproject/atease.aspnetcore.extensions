@@ -1,14 +1,16 @@
 ﻿using System;
 
-namespace AtEase.AspNetCore.Extensions.Middleware
+namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling
 {
-    public abstract class ApiException : Exception
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class ApiExceptionAttribute : Attribute
     {
-        public ApiException(string displayMessage = "", int errorCode = 0)
+        public ApiExceptionAttribute(string displayMessage = "", int errorCode = 0)
         {
             DisplayMessage = displayMessage;
             ErrorCode = errorCode;
         }
+
         public string ReferenceCode { get; set; }
         public int ErrorCode { get; protected set; }
         public string DisplayMessage { get; protected set; }

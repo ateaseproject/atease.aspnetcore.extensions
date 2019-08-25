@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
 
 namespace AtEase.AspNetCore.Extensions.Middleware
 {
@@ -7,7 +8,7 @@ namespace AtEase.AspNetCore.Extensions.Middleware
         public ApiValidationExceptionContent()
         {
         }
-        public ApiValidationExceptionContent(ApiValidationException apiValidationException)
+        public ApiValidationExceptionContent(ApiValidationExceptionAttribute apiValidationException)
         {
             ModelState = apiValidationException.ModelState;
         }
