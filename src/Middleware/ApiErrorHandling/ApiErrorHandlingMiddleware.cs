@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
@@ -49,21 +48,17 @@ namespace AtEase.AspNetCore.Extensions.Middleware
             }
             catch (Exception exception)
             {
-                if (exception.GetType().GetCustomAttributes(
-                    typeof(ApiExceptionAttribute), true
-                ).FirstOrDefault() is ApiExceptionAttribute apiAttribute)
+                if (exception.TryGetApiExceptionAttribute(out var apiAttribute))
                 {
                     await SetResponseAndLogContent(_logger, context.Response, ApiExceptionHttpStatusCode,
                         ApiExceptionReasonPhrase,
                         new ApiExceptionContent(apiAttribute));
                 }
-                else if (exception.GetType().GetCustomAttributes(
-                    typeof(ApiValidationExceptionAttribute), true
-                ).FirstOrDefault() is ApiValidationExceptionAttribute apiValidationAttribute)
+                else if (exception.TryGetApiValidationExceptionAttribute(out var apiValidationExceptionAttribute))
                 {
                     await SetResponseAndLogContent(_logger, context.Response, ApiValidationExceptionHttpStatusCode,
                         ApiValidationExceptionReasonPhrase,
-                        new ApiValidationExceptionContent(apiValidationAttribute));
+                        new ApiValidationExceptionContent(apiValidationExceptionAttribute));
                 }
             }
         }
