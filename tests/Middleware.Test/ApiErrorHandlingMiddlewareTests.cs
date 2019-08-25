@@ -19,7 +19,7 @@ namespace Middleware.Test
 
             var middleware =
                 new ApiErrorHandlingMiddleware(
-                    innerHttpContext => throw new EntityNotFoundException(displayMessage, errorCode), new FakeLogger());
+                    innerHttpContext => throw new EntityNotFoundException(), new FakeLogger());
 
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
@@ -55,7 +55,7 @@ namespace Middleware.Test
             const string error = "DuplicatedWithTitle";
 
             var middleware =
-                new ApiErrorHandlingMiddleware(innerHttpContext => throw new DuplicateTitleException(fieldName, error),
+                new ApiErrorHandlingMiddleware(innerHttpContext => throw new DuplicateTitleException(),
                     new FakeLogger());
 
             var context = new DefaultHttpContext();

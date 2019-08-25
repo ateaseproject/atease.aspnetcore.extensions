@@ -1,5 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
 using AtEase.Newtonsoft.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -44,21 +47,26 @@ namespace AtEase.AspNetCore.Extensions.Middleware
             {
                 await _next(context);
             }
-
-            catch (ApiException apiException)
+            catch (Exception exception)
             {
-                await SetResponseAndLogContent(_logger, context.Response, ApiExceptionHttpStatusCode,
-                    ApiExceptionReasonPhrase,
-                    new ApiExceptionContent(apiException));
-            }
-            catch (ApiValidationException apiValidationException)
-            {
-                await SetResponseAndLogContent(_logger, context.Response, ApiValidationExceptionHttpStatusCode,
-                    ApiValidationExceptionReasonPhrase,
-                    new ApiValidationExceptionContent(apiValidationException));
+                if (exception.GetType().GetCustomAttributes(
+                    typeof(ApiExceptionAttribute), true
+                ).FirstOrDefault() is ApiExceptionAttribute apiAttribute)
+                {
+                    await SetResponseAndLogContent(_logger, context.Response, ApiExceptionHttpStatusCode,
+                        ApiExceptionReasonPhrase,
+                        new ApiExceptionContent(apiAttribute));
+                }
+                else if (exception.GetType().GetCustomAttributes(
+                    typeof(ApiValidationExceptionAttribute), true
+                ).FirstOrDefault() is ApiValidationExceptionAttribute apiValidationAttribute)
+                {
+                    await SetResponseAndLogContent(_logger, context.Response, ApiValidationExceptionHttpStatusCode,
+                        ApiValidationExceptionReasonPhrase,
+                        new ApiValidationExceptionContent(apiValidationAttribute));
+                }
             }
         }
-
 
         public static Task SetResponseAndLogContent(ILogger logger, HttpResponse httpResponse,
             HttpStatusCode statusCode, string reasonPhrase, object content)
