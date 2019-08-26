@@ -1,21 +1,18 @@
-﻿using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
-
-namespace AtEase.AspNetCore.Extensions.Middleware
+﻿namespace AtEase.AspNetCore.Extensions.Middleware
 {
     public class ApiExceptionContent
     {
         public ApiExceptionContent()
         {
         }
+
         public ApiExceptionContent(ApiExceptionAttribute apiException)
         {
             ErrorCode = apiException.ErrorCode;
-            //Message = apiException.Message;
-            DisplayMessage = apiException.DisplayMessage;
+            Message = apiException.Message;
         }
 
         public int ErrorCode { get; set; }
         public string Message { get; set; }
-        public string DisplayMessage { get; set; }
     }
 }

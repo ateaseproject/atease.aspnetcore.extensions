@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
 
 namespace AtEase.AspNetCore.Extensions.Middleware
 {
@@ -8,11 +7,20 @@ namespace AtEase.AspNetCore.Extensions.Middleware
         public ApiValidationExceptionContent()
         {
         }
+
         public ApiValidationExceptionContent(ApiValidationExceptionAttribute apiValidationException)
         {
-            ModelState = apiValidationException.ModelState;
+            ModelState = CreateModelState(apiValidationException.FieldName, apiValidationException.Message);
         }
 
+
         public Dictionary<string, string[]> ModelState { get; set; }
+
+        private static Dictionary<string, string[]> CreateModelState(string fieldName, string message)
+        {
+            var modelState = new Dictionary<string, string[]>();
+            modelState.Add(fieldName, new[] {message});
+            return modelState;
+        }
     }
 }

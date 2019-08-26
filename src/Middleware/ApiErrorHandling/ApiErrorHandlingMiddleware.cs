@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
+using AtEase.Extensions;
 using AtEase.Newtonsoft.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -50,12 +50,22 @@ namespace AtEase.AspNetCore.Extensions.Middleware
             {
                 if (exception.TryGetApiExceptionAttribute(out var apiAttribute))
                 {
+                    if (apiAttribute.Message.IsNullOrEmptyOrWhiteSpace())
+                    {
+                        apiAttribute.Message = exception.Message;
+                    }
+
                     await SetResponseAndLogContent(_logger, context.Response, ApiExceptionHttpStatusCode,
                         ApiExceptionReasonPhrase,
                         new ApiExceptionContent(apiAttribute));
                 }
                 else if (exception.TryGetApiValidationExceptionAttribute(out var apiValidationExceptionAttribute))
                 {
+                    if (apiValidationExceptionAttribute.Message.IsNullOrEmptyOrWhiteSpace())
+                    {
+                        apiValidationExceptionAttribute.Message = exception.Message;
+                    }
+
                     await SetResponseAndLogContent(_logger, context.Response, ApiValidationExceptionHttpStatusCode,
                         ApiValidationExceptionReasonPhrase,
                         new ApiValidationExceptionContent(apiValidationExceptionAttribute));

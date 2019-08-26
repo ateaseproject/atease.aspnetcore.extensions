@@ -1,24 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling
+namespace AtEase.AspNetCore.Extensions.Middleware
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ApiValidationExceptionAttribute : Attribute
     {
-        public ApiValidationExceptionAttribute(Dictionary<string, string[]> modelState)
+        //public ApiValidationExceptionAttribute(Dictionary<string, string[]> modelState)
+        //{
+        //    ModelState = modelState ?? throw new ArgumentNullException(nameof(modelState));
+        //}
+
+        public ApiValidationExceptionAttribute(string fieldName, string message)
         {
-            ModelState = modelState ?? throw new ArgumentNullException(nameof(modelState));
+            FieldName = fieldName;
+            Message = message;
         }
 
-        public ApiValidationExceptionAttribute(string fieldName, string error)
+        public ApiValidationExceptionAttribute(string fieldName)
         {
-            var modelState = new Dictionary<string, string[]>();
-            modelState.Add(fieldName, new[] {error});
-
-            ModelState = modelState;
+            FieldName = fieldName;
         }
 
-        public Dictionary<string, string[]> ModelState { get; protected set; }
+
+        //public Dictionary<string, string[]> ModelState { get; protected set; }
+        public string FieldName { get; protected set; }
+        public string Message { get; set; }
     }
 }
