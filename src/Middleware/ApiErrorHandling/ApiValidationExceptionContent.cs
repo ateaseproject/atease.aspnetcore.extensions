@@ -10,11 +10,14 @@ namespace AtEase.AspNetCore.Extensions.Middleware
 
         public ApiValidationExceptionContent(ApiValidationExceptionAttribute apiValidationException)
         {
-            ModelState = CreateModelState(apiValidationException.FieldName, apiValidationException.Message);
+            Errors = CreateModelState(apiValidationException.FieldName, apiValidationException.Message);
         }
 
 
-        public Dictionary<string, string[]> ModelState { get; set; }
+        public Dictionary<string, string[]> Errors { get; set; }
+        public string Title { get; set; }
+        public int Status { get; set; }
+        public string TraceId { get; set; }
 
         private static Dictionary<string, string[]> CreateModelState(string fieldName, string message)
         {
