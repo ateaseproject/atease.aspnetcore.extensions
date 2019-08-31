@@ -5,7 +5,7 @@ namespace AtEase.AspNetCore.Extensions.Middleware
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ApiExceptionAttribute : Attribute
     {
-        public ApiExceptionAttribute(int errorCode, string message)
+        public ApiExceptionAttribute(int errorCode, string message) : this(errorCode)
         {
             Message = message;
             ErrorCode = errorCode;
@@ -14,6 +14,10 @@ namespace AtEase.AspNetCore.Extensions.Middleware
         public ApiExceptionAttribute(int errorCode)
         {
             ErrorCode = errorCode;
+        }
+
+        public ApiExceptionAttribute()
+        {
         }
 
         public string ReferenceCode { get; set; }
