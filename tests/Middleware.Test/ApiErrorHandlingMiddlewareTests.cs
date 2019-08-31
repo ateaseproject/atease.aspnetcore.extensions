@@ -108,7 +108,7 @@ namespace Middleware.Test
                 .Should()
                 .Be((int) HttpStatusCode.BadRequest);
 
-            objResponse.ModelState[fieldName][0]
+            objResponse.Errors[fieldName][0]
                 .Should()
                 .Be(error);
         }
@@ -138,7 +138,7 @@ namespace Middleware.Test
                 .Should()
                 .Be((int) HttpStatusCode.BadRequest);
 
-            objResponse.ModelState[fieldName][0]
+            objResponse.Errors[fieldName][0]
                 .Should()
                 .Be(error);
         }
