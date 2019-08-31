@@ -61,14 +61,16 @@ namespace AtEase.AspNetCore.Extensions.Middleware
                 }
                 else if (exception.TryGetApiValidationExceptionAttribute(out var apiValidationExceptionAttribute))
                 {
-                    if (apiValidationExceptionAttribute.Message.IsNullOrEmptyOrWhiteSpace())
-                    {
-                        apiValidationExceptionAttribute.Message = exception.Message;
-                    }
+                    var message = apiValidationExceptionAttribute.Message.IsNotNullOrEmptyOrWhiteSpace()
+                        ? apiValidationExceptionAttribute.Message
+                        : exception.Message;
+
+                    var content = new ApiValidationExceptionContent(context.TraceIdentifier,
+                        apiValidationExceptionAttribute.Title, apiValidationExceptionAttribute.FieldName, message);
+
 
                     await SetResponseAndLogContent(_logger, context.Response, ApiValidationExceptionHttpStatusCode,
-                        ApiValidationExceptionReasonPhrase,
-                        new ApiValidationExceptionContent(apiValidationExceptionAttribute));
+                        ApiValidationExceptionReasonPhrase, content);
                 }
             }
         }

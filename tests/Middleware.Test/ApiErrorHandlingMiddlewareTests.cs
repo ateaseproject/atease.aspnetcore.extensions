@@ -87,11 +87,11 @@ namespace Middleware.Test
         [Fact]
         public async Task when_ApiValidationException_raised_it_should_return_BadRequest_http_status_code()
         {
-            const string fieldName = "Title";
-            const string error = "DuplicatedWithTitle";
+            const string fieldName = "Name";
+            const string error = "NameValidationException";
 
             var middleware =
-                new ApiErrorHandlingMiddleware(innerHttpContext => throw new DuplicateTitleException(),
+                new ApiErrorHandlingMiddleware(innerHttpContext => throw new NameValidationException(),
                     new FakeLogger());
 
             var context = new DefaultHttpContext();
@@ -117,11 +117,11 @@ namespace Middleware.Test
         [Fact]
         public async Task when_ApiValidationExceptionWithMessage_raised_it_should_return_BadRequest_http_status_code()
         {
-            const string fieldName = "Title";
-            const string error = "DuplicatedWithTitle";
+            const string fieldName = "Name";
+            const string error = "NameValidationException";
 
             var middleware =
-                new ApiErrorHandlingMiddleware(innerHttpContext => throw new DuplicateTitleExceptionWithMessage(),
+                new ApiErrorHandlingMiddleware(innerHttpContext => throw new NameValidationExceptionWithMessage(),
                     new FakeLogger());
 
             var context = new DefaultHttpContext();
