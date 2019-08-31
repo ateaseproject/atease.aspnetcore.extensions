@@ -6,57 +6,22 @@ execute the command in **Nuget** package manager console:
 
 
 ### APi Error Handling Middleware:
-this middleware contains from two part. 
 * ### Api Validation Exception:
-the first is for handling validation errors in WebApi and return `BadRequest (400)` HttpStatus with the custom information.
-as the folow, you must create and throw custom Exception class an inheritance it from `Exception` class.
+Handling validation errors that raised in the services and return `BadRequest (400)` HttpStatus with the custom message.
+Add `ApiValidationException` attribute to your exceptionclass:
 ```C#
-    public class EntityNotFoundException : Exception
+    [ApiValidationException("Name", "Name must has our pattern.")]
+    public class NameValidationException : Exception
     {
     }
 ```
-```C#
-throw new EntityNotFoundException();
-```
-
-if the error is related to validation of model that recieved from api, you must set the `ApiValidationException` attribute class in your custom exception class.
-the `ApiValidationException` has three overload, the first is `fieldName` and the second is `fieldName, message` and the third is `title,fieldName, message`.
-`fieldName` is name of the invalid field.
-`message` is custom message to show to end user
-`title` title of the error message
-if the `message` argument left blank, the message value is taken from the Exception.
-
-```C#
-    [ApiValidationException("Id", "EntityNotFound!!")]
-    public class EntityNotFoundException : Exception
-    {
-    }
-```
-or
-```C#
-    [ApiValidationException("Id")]
-    public class EntityNotFoundException : Exception
-    {
-        public EntityNotFoundException() : base("EntityNotFound!!")
-        {
-        }
-    }
-```
-or
-```C#
-    [ApiValidationException("Title of Error", "Id", "EntityNotFound!!")]
-    public class EntityNotFoundExceptionWithMessage : Exception
-    {
-    }
-```
-
-the sample result of the http request is:
+Web API result:
 ```
 BadRequest (400)
 {
   "errors": {
     "Id": [
-      "EntityNotFound!!"
+      "Name must has our pattern."
     ]
   },
   "title": "Title of Error",
@@ -91,7 +56,7 @@ or
     {
     }
 ```
-the sample result of the http request is:
+Web API result:
 ```
 Conflict (409)
 {
