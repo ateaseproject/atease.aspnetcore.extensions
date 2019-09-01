@@ -33,26 +33,12 @@ BadRequest (400)
 
 
 * ### Api Exception:
-this is for return `Conflict (409)` status to end user.
-if the error is related to Conflict, you must set the `ApiException` attribute class in your custom exception class.
-the `ApiException` has two overload, the first is `errorCode` and the second is `errorCode, message`.
-`errorCode` is custom error code you want to assign to specific error.
-`message` is custom message to show to end user
+Handling Conflict errors that raised in the services and return `Conflict (409)` HttpStatus with the custom message.
+Add `ApiException` attribute to your exceptionclass:
 if the `message` argument left blank, the message value is taken from the Exception.
-
 ```C#
-    [ApiException(-1)]
-    public class FactorAcceptedInThePastException : Exception
-    {
-        public FactorAcceptedInThePastException() : base("the Factor accepted in the past!!")
-        {
-        }
-    }
-```
-or
-```C#
-    [ApiException(-1, "the Factor accepted in the past!!")]
-    public class FactorAcceptedInThePastException : Exception
+    [ApiException(-1, "the Invoice accepted in the past!!")]
+    public class InvoiceAcceptedInThePastException : Exception
     {
     }
 ```
@@ -61,6 +47,6 @@ Web API result:
 Conflict (409)
 {
   "errorCode": -1,
-  "message": "the Factor accepted in the past!!"
+  "message": "the Invoice accepted in the past!!"
 }
 ```
