@@ -15,7 +15,7 @@ public class AppInfo
        return new AppInfo()
        {
             Solution = "AtEase.AspNetCore.Extensions",
-            Projects = {"Middleware"},
+            Projects = new string[] {"Middleware"},
             GitHubRepositoryName  = "atease.aspnetcore.extensions",
             TargetFramework = "netcoreapp2.2",
             TargetFrameworkFull = "netstandard2.0",
