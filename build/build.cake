@@ -146,7 +146,7 @@ Task("Tests-With_Coverage")
                             OldStyle = true,
                             MergeOutput = true
                         }
-                        .WithFilter($"+[{parameters.AppInfo.AppName}]*")
+                        .WithFilter($"+[{parameters.AppInfo.Solution}]*")
                         .WithFilter($"-[*.Test]*")
 						.ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
                         .ExcludeByFile("*.Designer.cs;*.g.cs;*.g.i.cs"));

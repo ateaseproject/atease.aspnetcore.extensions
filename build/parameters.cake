@@ -24,7 +24,7 @@ public class AppInfo
 
     public override string ToString()
     {
-        return $"AppName: {AppName}\nGitHubRepositoryName: {GitHubRepositoryName}\nTargetFramework: {TargetFramework}\nTargetFrameworkFull: {TargetFrameworkFull}";
+        return $"AppName: {Solution}\nGitHubRepositoryName: {GitHubRepositoryName}\nTargetFramework: {TargetFramework}\nTargetFrameworkFull: {TargetFrameworkFull}";
     }  
 }
 
