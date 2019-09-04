@@ -161,10 +161,17 @@ Task("Create-NuGet-Packages")
         	Configuration = parameters.Configuration,
         	OutputDirectory = parameters.Paths.Directories.NugetRootDir.ToString(),
      	};
-		var projectPath = parameters.Paths.Directories.SrcRootDir
-						.Combine(parameters.AppInfo.AppName)
-						.Combine($"{parameters.AppInfo.AppName}.csproj");
-    	DotNetCorePack(projectPath.ToString(), settings);
+		
+		foreach(var project in parameters.Paths.Files.ProjectsToPack)
+		{
+			DotNetCorePack(projectPath.ToString(), settings);
+		}
+		
+		
+		// var projectPath = parameters.Paths.Directories.SrcRootDir
+		// 				.Combine(parameters.AppInfo.AppName)
+		// 				.Combine($"{parameters.AppInfo.AppName}.csproj");
+    	// DotNetCorePack(projectPath.ToString(), settings);
 
     });
  Task("Push-Nuget-Packages")

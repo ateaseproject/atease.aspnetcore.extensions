@@ -7,13 +7,15 @@ public class AppInfo
 {
     public string TargetFramework { get; private set; }
     public string TargetFrameworkFull { get; private set; }
-    public string AppName { get; private set; }
+    public string[] Projects { get; private set; }
+    public string Solution { get; private set; }
     public string GitHubRepositoryName { get; private set; }
     public static AppInfo GetAppInfo()
     {
        return new AppInfo()
        {
-            AppName = "AtEase",
+            Solution = "AtEase.AspNetCore.Extensions",
+            Projects = {"Middleware"},
             GitHubRepositoryName  = "atease.aspnetcore.extensions",
             TargetFramework = "netcoreapp2.2",
             TargetFrameworkFull = "netstandard2.0",

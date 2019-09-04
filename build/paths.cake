@@ -20,13 +20,17 @@ public class BuildPaths
             if (files != null)
             testAssemblies.AddRange(files);
         }
-        var projectsToPack = new List<FilePath>
+
+        var projectsToPack = new List<FilePath>();
+
+        foreach(var project in appInfo.Projects)
         {
-            buildDirectories.SrcRootDir.CombineWithFilePath($"{appInfo.AppName}/{appInfo.AppName}.csproj"),
-        };
+            projectsToPack.Add(buildDirectories.SrcRootDir.CombineWithFilePath($"{project}/{project}.csproj"));
+        }
+        
 
         var buildFiles = new BuildFiles(
-            buildDirectories.RootDir.CombineWithFilePath($"{appInfo.AppName}.sln"),
+            buildDirectories.RootDir.CombineWithFilePath($"{appInfo.Solution}.sln"),
             buildDirectories.TestResultsDir.CombineWithFilePath("OpenCover.xml"),
             buildDirectories.RootDir.CombineWithFilePath("ReleaseNotes.md"),
             buildDirectories.ArtifactsDir.CombineWithFilePath("ReleaseNotes.md"),
