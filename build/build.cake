@@ -77,12 +77,6 @@ Task("Clean")
     EnsureDirectoryExists(parameters.Paths.Directories.TestResultsDir);
     EnsureDirectoryExists(parameters.Paths.Directories.NugetRootDir);
 
-
-	// var outputDir = parameters.Paths.Directories.Artifacts;
-	// // Clean previous artifacts
-	// Information("Cleaning {0}", outputDir);
-	// if (!DirectoryExists(outputDir)) CreateDirectory(outputDir);
-	// if (DirectoryExists(publishDir)) CleanDirectories(MakeAbsolute(Directory(publishDir)).FullPath);
 });
 
 Task("Restore")
@@ -164,14 +158,9 @@ Task("Create-NuGet-Packages")
 		
 		foreach(var project in parameters.Paths.Files.ProjectsToPack)
 		{
-			DotNetCorePack(projectPath.ToString(), settings);
+			DotNetCorePack(project.ToString(), settings);
 		}
 		
-		
-		// var projectPath = parameters.Paths.Directories.SrcRootDir
-		// 				.Combine(parameters.AppInfo.AppName)
-		// 				.Combine($"{parameters.AppInfo.AppName}.csproj");
-    	// DotNetCorePack(projectPath.ToString(), settings);
 
     });
  Task("Push-Nuget-Packages")
