@@ -3,17 +3,39 @@ using AtEase.AspNetCore.Extensions.Middleware;
 
 namespace Middleware.Test
 {
-    [ApiException(-1, "EntityNotFound")]
+    [WebApiConflict(-1, "EntityNotFound")]
     public class EntityNotFoundExceptionWithMessage : Exception
     {
     }
 
 
-    [ApiException(-1)]
+    [WebApiConflict(-1)]
     public class EntityNotFoundException : Exception
     {
         public EntityNotFoundException() : base("EntityNotFound")
         {
         }
     }
+
+
+
+
+    [WebApiConflict()]
+    public class EntityWithErrorMessageException : Exception
+    {
+        public EntityWithErrorMessageException() : base("EntityNotFound")
+        {
+        }
+    }
+
+    [WebApiConflict()]
+    public class EntityException : Exception
+    {
+        public EntityException() : base("")
+        {
+        }
+    }
+
+
+
 }

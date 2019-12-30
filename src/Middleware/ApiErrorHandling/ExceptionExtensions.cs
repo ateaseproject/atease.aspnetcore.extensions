@@ -6,36 +6,36 @@ namespace AtEase.AspNetCore.Extensions.Middleware
 {
     public static class ExceptionExtensions
     {
-        public static bool TryGetApiExceptionAttribute(this Exception exception,
-            out ApiExceptionAttribute apiExceptionAttribute)
+        public static bool TryGetWebApiConflictAttribute(this Exception exception,
+            out WebApiConflictAttribute webApiConflictAttribute)
         {
             var attr = exception.GetType().GetCustomAttributes(
-                typeof(ApiExceptionAttribute), true
+                typeof(WebApiConflictAttribute), true
             ).SingleOrDefault();
             if (attr.IsNotNull())
             {
-                apiExceptionAttribute = attr as ApiExceptionAttribute;
+                webApiConflictAttribute = attr as WebApiConflictAttribute;
                 return true;
             }
 
-            apiExceptionAttribute = null;
+            webApiConflictAttribute = null;
             return false;
         }
 
 
-        public static bool TryGetApiValidationExceptionAttribute(this Exception exception,
-            out ApiValidationExceptionAttribute apiValidationExceptionAttribute)
+        public static bool TryGetWebApiBadRequestAttribute(this Exception exception,
+            out WebApiBadRequestAttribute webApiBadRequestAttribute)
         {
             var attr = exception.GetType().GetCustomAttributes(
-                typeof(ApiValidationExceptionAttribute), true
+                typeof(WebApiBadRequestAttribute), true
             ).SingleOrDefault();
             if (attr.IsNotNull())
             {
-                apiValidationExceptionAttribute = attr as ApiValidationExceptionAttribute;
+                webApiBadRequestAttribute = attr as WebApiBadRequestAttribute;
                 return true;
             }
 
-            apiValidationExceptionAttribute = null;
+            webApiBadRequestAttribute = null;
             return false;
         }
     }

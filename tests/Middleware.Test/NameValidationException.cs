@@ -3,16 +3,33 @@ using AtEase.AspNetCore.Extensions.Middleware;
 
 namespace Middleware.Test
 {
-    [ApiValidationException("Name", "NameValidationException")]
+    [WebApiBadRequest("Name", "NameValidationException")]
     public class NameValidationExceptionWithMessage : Exception
     {
     }
 
 
-    [ApiValidationException("Name")]
+    [WebApiBadRequest("Name")]
     public class NameValidationException : Exception
     {
         public NameValidationException() : base("NameValidationException")
+        {
+        }
+    }
+
+    [WebApiBadRequest]
+    public class ValidationExceptionWithErrorMessage : Exception
+    {
+        public ValidationExceptionWithErrorMessage() : base("NameValidationException")
+        {
+        }
+    }
+
+
+    [WebApiBadRequest()]
+    public class ValidationException : Exception
+    {
+        public ValidationException() : base("")
         {
         }
     }

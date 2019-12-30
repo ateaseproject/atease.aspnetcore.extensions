@@ -3,25 +3,29 @@
 namespace AtEase.AspNetCore.Extensions.Middleware
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class ApiExceptionAttribute : Attribute
+    public class WebApiConflictAttribute : Attribute
     {
-        public ApiExceptionAttribute(int errorCode, string message) : this(errorCode)
+       
+
+
+        public WebApiConflictAttribute(int errorCode, string message) : this(errorCode)
         {
             Message = message;
             ErrorCode = errorCode;
         }
 
-        public ApiExceptionAttribute(int errorCode)
+        public WebApiConflictAttribute(int errorCode) : this()
         {
             ErrorCode = errorCode;
         }
 
-        public ApiExceptionAttribute()
+        public WebApiConflictAttribute()
         {
         }
 
-        public string ReferenceCode { get; set; }
-        public int ErrorCode { get; protected set; }
+
+        public int? ErrorCode { get; protected set; }
         public string Message { get; set; }
+    
     }
 }
