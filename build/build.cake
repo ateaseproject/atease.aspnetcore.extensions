@@ -1,7 +1,7 @@
 #tool "nuget:?package=GitVersion.CommandLine"
 #load "./parameters.cake"
-#tool "nuget:?package=OpenCover"
-#tool "nuget:?package=ReportGenerator"
+// #tool "nuget:?package=OpenCover"
+// #tool "nuget:?package=ReportGenerator"
 
 
 
@@ -132,50 +132,54 @@ Task("Tests-With_Coverage")
 	 };
  
 		
- 	    OpenCover(tool => testAction(tool),
-                        parameters.Paths.Files.TestCoverageOutput,
-                        new OpenCoverSettings()
-                        {
-                            ReturnTargetCodeOffset = 0,
-                            OldStyle = true,
-                            MergeOutput = true
-                        }
-                        .WithFilter($"+[{parameters.AppInfo.Solution}]*")
-                        .WithFilter($"-[*.Test]*")
-						.ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
-                        .ExcludeByFile("*.Designer.cs;*.g.cs;*.g.i.cs"));
-      ReportGenerator(parameters.Paths.Files.TestCoverageOutput, parameters.Paths.Directories.TestResultsCoverReportDir);
+ 	//     OpenCover(tool => testAction(tool),
+    //                     parameters.Paths.Files.TestCoverageOutput,
+    //                     new OpenCoverSettings()
+    //                     {
+    //                         ReturnTargetCodeOffset = 0,
+    //                         OldStyle = true,
+    //                         MergeOutput = true
+    //                     }
+    //                     .WithFilter($"+[{parameters.AppInfo.Solution}]*")
+    //                     .WithFilter($"-[*.Test]*")
+	// 					.ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
+    //                     .ExcludeByFile("*.Designer.cs;*.g.cs;*.g.i.cs"));
+    //   ReportGenerator(parameters.Paths.Files.TestCoverageOutput, parameters.Paths.Directories.TestResultsCoverReportDir);
 });
 Task("Create-NuGet-Packages")
 	.Description("Generates NuGet packages for each project.")
     .Does(() =>
-    {                
-		var settings = new DotNetCorePackSettings
-     	{
-        	Configuration = parameters.Configuration,
-        	OutputDirectory = parameters.Paths.Directories.NugetRootDir.ToString(),
-     	};
-		
-		foreach(var project in parameters.Paths.Files.ProjectsToPack)
-		{
-			DotNetCorePack(project.ToString(), settings);
+    {       
+		if(parameters.IsTagged)
+		{          
+			var settings = new DotNetCorePackSettings
+			{
+				Configuration = parameters.Configuration,
+				OutputDirectory = parameters.Paths.Directories.NugetRootDir.ToString(),
+			};
+			
+			foreach(var project in parameters.Paths.Files.ProjectsToPack)
+			{
+				DotNetCorePack(project.ToString(), settings);
+			}
 		}
-		
-
     });
  Task("Push-Nuget-Packages")
 	.Description("Push NuGet packages to nuget server.")
 	.Does(() =>
 	{
-		var nugetFiles = System.IO.Directory.GetFiles(parameters.Paths.Directories.NugetRootDir.ToString(), "*.nupkg")
-										.Select(z => new FilePath(z)).ToList();
-		var settings = new NuGetPushSettings()
-		{
-			Source = parameters.NuGet.ApiUrl,
-			ApiKey = parameters.NuGet.ApiKey,
-		};
+		if(parameters.IsTagged)
+		{ 
+			var nugetFiles = System.IO.Directory.GetFiles(parameters.Paths.Directories.NugetRootDir.ToString(), "*.nupkg")
+											.Select(z => new FilePath(z)).ToList();
+			var settings = new NuGetPushSettings()
+			{
+				Source = parameters.NuGet.ApiUrl,
+				ApiKey = parameters.NuGet.ApiKey,
+			};
 
-		NuGetPush(nugetFiles, settings);
+			NuGetPush(nugetFiles, settings);
+		}
 	});
 Task("Default")
 	.IsDependentOn("Clean")
