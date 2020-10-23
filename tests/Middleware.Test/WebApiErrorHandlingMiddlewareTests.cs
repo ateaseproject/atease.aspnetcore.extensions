@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using AtEase.AspNetCore.Extensions.Middleware;
 using Microsoft.AspNetCore.Http;
 using Xunit;
 
@@ -17,8 +16,7 @@ namespace Middleware.Test
             var result = conflictController.GetConflict();
 
             var middleware =
-                new WebApiErrorHandlingMiddleware(innerHttpContext => throw new ArgumentException(),
-                    new FakeLogger());
+                TestHelper.BuildWebApiErrorHandlingMiddleware(innerHttpContext => throw new ArgumentException());
 
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
