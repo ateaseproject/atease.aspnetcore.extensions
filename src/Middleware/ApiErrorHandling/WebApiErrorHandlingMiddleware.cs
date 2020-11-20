@@ -58,75 +58,60 @@ namespace AtEase.AspNetCore.Extensions.Middleware
             {
                 await _next(context);
             }
-            catch (ArgumentException exception) when (_config.CatchAllArgumentsException)
-            {
-                await TryHandle(context, new ArgumentExceptionMapper(), exception);
-            }
 
             catch (Exception exception)
             {
+                var exceptionHandled = false;
                 if (_config.Mappers.Any())
                 {
                     foreach (var mapper in _config.Mappers)
                     {
-                        await TryHandle(context, mapper, exception);
+                        exceptionHandled = mapper.CanHandle(exception);
+                        if (exceptionHandled)
+                        {
+                            await SetResponseAndLogContent(_logger,
+                                                           context.Response,
+                                                           mapper.GetStatusCode(),
+                                                           mapper.GetReasonPhrase(),
+                                                           mapper.CreateContent(exception));
+                        }
                     }
+                }
+
+                if (exceptionHandled)
+                {
+                    return;
+                }
+
+
+                if (exception.TryGetWebApiConflictAttribute(out var apiAttribute))
+                {
+                    if (apiAttribute.Message.IsNullOrEmptyOrWhiteSpace())
+                    {
+                        apiAttribute.Message = exception.Message;
+                    }
+
+                    await TryHandle(context,
+                                    new WebApiErrorHandlingConflictExceptionMapper(),
+                                    new WebApiErrorHandlingConflictException(
+                                    apiAttribute.Message,
+                                    apiAttribute.ErrorCode));
+                }
+                else if (exception.TryGetWebApiBadRequestAttribute(out var apiValidationExceptionAttribute))
+                {
+                    if (apiValidationExceptionAttribute.Message.IsNullOrEmptyOrWhiteSpace())
+                    {
+                        apiValidationExceptionAttribute.Message = exception.Message;
+                    }
+
+                    await TryHandle(context,
+                                    new ArgumentExceptionMapper(),
+                                    new ArgumentException(apiValidationExceptionAttribute.Message,
+                                                          apiValidationExceptionAttribute.FieldName));
                 }
                 else
                 {
-                    switch (exception)
-                    {
-                        case ArgumentNullException argumentNullException when _config.CatchArgumentNullException:
-                            await TryHandle(context, new ArgumentNullExceptionMapper(), exception);
-                            break;
-                        case ArgumentNullException argumentNullException:
-                            throw;
-                        case ArgumentOutOfRangeException argumentOutOfRangeException
-                            when _config.CatchArgumentOutOfRangeException:
-                            await TryHandle(context, new ArgumentOutOfRangeExceptionMapper(), exception);
-                            break;
-                        case ArgumentOutOfRangeException argumentOutOfRangeException:
-                            throw;
-                        case ArgumentException argumentException when _config.CatchArgumentException:
-                            await TryHandle(context, new ArgumentExceptionMapper(), exception);
-                            break;
-                        case ArgumentException argumentException:
-                            throw;
-                        default:
-                        {
-                            if (exception.TryGetWebApiConflictAttribute(out var apiAttribute))
-                            {
-                                if (apiAttribute.Message.IsNullOrEmptyOrWhiteSpace())
-                                {
-                                    apiAttribute.Message = exception.Message;
-                                }
-
-                                await TryHandle(context,
-                                                new WebApiErrorHandlingConflictExceptionMapper(),
-                                                new WebApiErrorHandlingConflictException(
-                                                apiAttribute.Message,
-                                                apiAttribute.ErrorCode));
-                            }
-                            else if (exception.TryGetWebApiBadRequestAttribute(out var apiValidationExceptionAttribute))
-                            {
-                                if (apiValidationExceptionAttribute.Message.IsNullOrEmptyOrWhiteSpace())
-                                {
-                                    apiValidationExceptionAttribute.Message = exception.Message;
-                                }
-
-                                await TryHandle(context,
-                                                new ArgumentExceptionMapper(),
-                                                new ArgumentException(apiValidationExceptionAttribute.Message,
-                                                                      apiValidationExceptionAttribute.FieldName));
-                            }
-                            else
-                            {
-                                throw;
-                            }
-
-                            break;
-                        }
-                    }
+                    throw;
                 }
             }
         }

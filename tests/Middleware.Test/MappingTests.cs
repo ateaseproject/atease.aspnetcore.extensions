@@ -59,34 +59,34 @@ namespace Middleware.Test
                                           expected));
         }
 
-//        [Fact]
-//        public async Task
-//            when_ArgumentOutOfRangeException_raised_but_config_is_set_to_argument_it_should_raise_exception_again()
-//        {
-//            const string fieldName = "ArgumentOutOfRange";
-//            const string error = "NameValidationException";
-//
-//
-//            var badRequestController = new BadRequestController();
-//
-//            var modelState = new ModelStateDictionary();
-//            modelState.AddModelError(fieldName,
-//                                     error);
-//            var result = badRequestController.GetBadRequestWithModelState(modelState);
-//
-//            var config = new WebApiErrorHandlingConfig();
-//            config.CatchArgumentException();
-//            var middleware =
-//                TestHelper.BuildWebApiErrorHandlingMiddleware(innerHttpContext =>
-//                                                                  throw new CatchArgumentOutOfRangeException(
-//                                                                  fieldName,
-//                                                                  error),
-//                                                              config);
-//            var context = new DefaultHttpContext();
-//            context.Response.Body = new MemoryStream();
-//            Func<Task> act = async () => { await middleware.Invoke(context); };
-//            await act.Should().ThrowAsync<CatchArgumentOutOfRangeException>();
-//        }
+        [Fact]
+        public async Task
+            when_ArgumentOutOfRangeException_raised_but_config_is_set_to_argument_it_should_raise_exception_again()
+        {
+            const string fieldName = "ArgumentOutOfRange";
+            const string error = "NameValidationException";
+
+
+            var badRequestController = new BadRequestController();
+
+            var modelState = new ModelStateDictionary();
+            modelState.AddModelError(fieldName,
+                                     error);
+            var result = badRequestController.GetBadRequestWithModelState(modelState);
+
+            var config = new WebApiErrorHandlingConfig();
+            config.CatchArgumentException();
+            var middleware =
+                TestHelper.BuildWebApiErrorHandlingMiddleware(innerHttpContext =>
+                                                                  throw new ArgumentOutOfRangeException(
+                                                                  fieldName,
+                                                                  error),
+                                                              config);
+            var context = new DefaultHttpContext();
+            context.Response.Body = new MemoryStream();
+            Func<Task> act = async () => { await middleware.Invoke(context); };
+            await act.Should().ThrowAsync<ArgumentOutOfRangeException>();
+        }
 
 
         [Fact]
