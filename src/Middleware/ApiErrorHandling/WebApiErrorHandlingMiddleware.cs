@@ -34,14 +34,7 @@ namespace AtEase.AspNetCore.Extensions.Middleware
 
     public class WebApiErrorHandlingMiddleware
     {
-        public const HttpStatusCode ConflictHttpStatusCode = HttpStatusCode.Conflict;
-        public const string ConflictReasonPhrase = "Conflict";
-
-        public const HttpStatusCode BadRequestHttpStatusCode = HttpStatusCode.BadRequest;
-        public const string BadRequestReasonPhrase = "Bad Request";
         private readonly WebApiErrorHandlingConfig _config;
-
-
         private readonly ILogger _logger;
         private readonly RequestDelegate _next;
 
@@ -125,6 +118,10 @@ namespace AtEase.AspNetCore.Extensions.Middleware
                                                mapper.GetStatusCode(),
                                                mapper.GetReasonPhrase(),
                                                mapper.CreateContent(exception));
+            }
+            else
+            {
+                throw new Exception("cannot handle the exception", exception);
             }
         }
 
