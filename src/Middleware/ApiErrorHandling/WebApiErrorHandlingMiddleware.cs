@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
+using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling.DefaultMappers;
 using AtEase.Extensions;
 using AtEase.Newtonsoft.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 
 namespace AtEase.AspNetCore.Extensions.Middleware
@@ -58,141 +58,89 @@ namespace AtEase.AspNetCore.Extensions.Middleware
             {
                 await _next(context);
             }
-            catch (ArgumentException exception) when (_config.AllArgumentsException)
+            catch (ArgumentException exception) when (_config.CatchAllArgumentsException)
             {
-                await HandleArgumentException(exception, context);
+                await TryHandle(context, new ArgumentExceptionMapper(), exception);
             }
-          
+
             catch (Exception exception)
             {
-                switch (exception)
+                if (_config.Mappers.Any())
                 {
-                    case ArgumentNullException argumentNullException when _config.ArgumentNullException:
-                        await HandleArgumentException(argumentNullException, context);
-                        break;
-                    case ArgumentNullException argumentNullException:
-                        throw;
-                    case ArgumentOutOfRangeException argumentOutOfRangeException when _config.ArgumentOutOfRangeException:
-                        await HandleArgumentException(argumentOutOfRangeException, context);
-                        break;
-                    case ArgumentOutOfRangeException argumentOutOfRangeException:
-                        throw;
-                    case ArgumentException argumentException when _config.ArgumentException:
-                        await HandleArgumentException(argumentException, context);
-                        break;
-                    case ArgumentException argumentException:
-                        throw;
-                    default:
+                    foreach (var mapper in _config.Mappers)
                     {
-                        if (exception.TryGetWebApiConflictAttribute(out var apiAttribute))
-                        {
-                            if (apiAttribute.Message.IsNullOrEmptyOrWhiteSpace())
-                            {
-                                apiAttribute.Message = exception.Message;
-                            }
-
-                            var content = BuildContent(apiAttribute);
-
-
-                            await SetResponseAndLogContent(_logger,
-                                                           context.Response,
-                                                           ConflictHttpStatusCode,
-                                                           ConflictReasonPhrase,
-                                                           content);
-                        }
-                        else if (exception.TryGetWebApiBadRequestAttribute(out var apiValidationExceptionAttribute))
-                        {
-                            if (apiValidationExceptionAttribute.Message.IsNullOrEmptyOrWhiteSpace())
-                            {
-                                apiValidationExceptionAttribute.Message = exception.Message;
-                            }
-
-
-                            var content = BuildContent(apiValidationExceptionAttribute);
-
-                            await SetResponseAndLogContent(_logger,
-                                                           context.Response,
-                                                           BadRequestHttpStatusCode,
-                                                           BadRequestReasonPhrase,
-                                                           content);
-                        }
-                        else
-                        {
+                        await TryHandle(context, mapper, exception);
+                    }
+                }
+                else
+                {
+                    switch (exception)
+                    {
+                        case ArgumentNullException argumentNullException when _config.CatchArgumentNullException:
+                            await TryHandle(context, new ArgumentNullExceptionMapper(), exception);
+                            break;
+                        case ArgumentNullException argumentNullException:
                             throw;
-                        }
+                        case ArgumentOutOfRangeException argumentOutOfRangeException
+                            when _config.CatchArgumentOutOfRangeException:
+                            await TryHandle(context, new ArgumentOutOfRangeExceptionMapper(), exception);
+                            break;
+                        case ArgumentOutOfRangeException argumentOutOfRangeException:
+                            throw;
+                        case ArgumentException argumentException when _config.CatchArgumentException:
+                            await TryHandle(context, new ArgumentExceptionMapper(), exception);
+                            break;
+                        case ArgumentException argumentException:
+                            throw;
+                        default:
+                        {
+                            if (exception.TryGetWebApiConflictAttribute(out var apiAttribute))
+                            {
+                                if (apiAttribute.Message.IsNullOrEmptyOrWhiteSpace())
+                                {
+                                    apiAttribute.Message = exception.Message;
+                                }
 
-                        break;
+                                await TryHandle(context,
+                                                new WebApiErrorHandlingConflictExceptionMapper(),
+                                                new WebApiErrorHandlingConflictException(
+                                                apiAttribute.Message,
+                                                apiAttribute.ErrorCode));
+                            }
+                            else if (exception.TryGetWebApiBadRequestAttribute(out var apiValidationExceptionAttribute))
+                            {
+                                if (apiValidationExceptionAttribute.Message.IsNullOrEmptyOrWhiteSpace())
+                                {
+                                    apiValidationExceptionAttribute.Message = exception.Message;
+                                }
+
+                                await TryHandle(context,
+                                                new ArgumentExceptionMapper(),
+                                                new ArgumentException(apiValidationExceptionAttribute.Message,
+                                                                      apiValidationExceptionAttribute.FieldName));
+                            }
+                            else
+                            {
+                                throw;
+                            }
+
+                            break;
+                        }
                     }
                 }
             }
         }
 
-        private async Task HandleArgumentException(ArgumentException exception, HttpContext context)
+        private async Task TryHandle(HttpContext context, WebApiErrorHandlingMapper mapper, Exception exception)
         {
-            var index = exception.Message.LastIndexOf("\r\n",
-                                                      StringComparison.Ordinal);
-            var message = exception.Message.Substring(0,
-                                                      index);
-
-            object content = new BadRequestObjectResult(CreateModelState(exception.ParamName,
-                                                                         message));
-            await SetResponseAndLogContent(_logger,
-                                           context.Response,
-                                           BadRequestHttpStatusCode,
-                                           BadRequestReasonPhrase,
-                                           content);
-        }
-
-        private static object BuildContent(WebApiConflictAttribute apiAttribute)
-        {
-            object content;
-
-            if (apiAttribute.ErrorCode.IsNotNull())
+            if (mapper.CanHandle(exception))
             {
-                content = new ConflictObjectResult(CreateModelState(apiAttribute.ErrorCode.Value.ToString(),
-                                                                    apiAttribute.Message));
+                await SetResponseAndLogContent(_logger,
+                                               context.Response,
+                                               mapper.GetStatusCode(),
+                                               mapper.GetReasonPhrase(),
+                                               mapper.CreateContent(exception));
             }
-            else if (apiAttribute.Message.IsNotNullOrEmpty())
-            {
-                content = new ConflictObjectResult(apiAttribute.Message);
-            }
-            else
-            {
-                content = new ConflictResult();
-            }
-
-            return content;
-        }
-
-        private static object BuildContent(WebApiBadRequestAttribute apiValidationExceptionAttribute)
-        {
-            object content;
-
-            if (apiValidationExceptionAttribute.FieldName.IsNotNullOrEmpty())
-            {
-                content = new BadRequestObjectResult(CreateModelState(apiValidationExceptionAttribute.FieldName,
-                                                                      apiValidationExceptionAttribute.Message));
-            }
-            else if (apiValidationExceptionAttribute.Message.IsNotNullOrEmpty())
-            {
-                content = new BadRequestObjectResult(apiValidationExceptionAttribute.Message);
-            }
-            else
-            {
-                content = new BadRequestResult();
-            }
-
-            return content;
-        }
-
-
-        private static ModelStateDictionary CreateModelState(string fieldName, string message)
-        {
-            var modelState = new ModelStateDictionary();
-            modelState.AddModelError(fieldName,
-                                     message);
-
-            return modelState;
         }
 
         public static Task SetResponseAndLogContent(ILogger logger,

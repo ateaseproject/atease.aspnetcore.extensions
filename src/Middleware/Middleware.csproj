@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <RootNamespace>AtEase.AspNetCore.Extensions.Middleware</RootNamespace>
     <PackageId>AtEase.AspNetCore.Extensions.Middleware</PackageId>
     <Authors>Ahmad.Chehreghani, MohammadMahdi.Sadeghi</Authors>
