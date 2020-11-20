@@ -19,7 +19,7 @@ namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling
 
     public static class WebApiErrorHandlingConfigExtension
     {
-        public static void CatchAllArgumentException(this WebApiErrorHandlingConfig config)
+        public static void CatchAllArgumentExceptions(this WebApiErrorHandlingConfig config)
         {
             config.CatchArgumentException();
             config.CatchArgumentNullException();
