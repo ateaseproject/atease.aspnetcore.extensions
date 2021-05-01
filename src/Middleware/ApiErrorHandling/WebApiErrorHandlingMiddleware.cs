@@ -62,7 +62,7 @@ namespace AtEase.AspNetCore.Extensions.Middleware
                         exceptionHandled = mapper.CanHandle(exception);
                         if (exceptionHandled)
                         {
-                            await SetResponseAndLogContent(_logger,
+                            await SetResponseAndLogContentAsync(_logger,
                                                            context.Response,
                                                            mapper.GetStatusCode(),
                                                            mapper.GetReasonPhrase(),
@@ -84,7 +84,7 @@ namespace AtEase.AspNetCore.Extensions.Middleware
                         apiAttribute.Message = exception.Message;
                     }
 
-                    await TryHandle(context,
+                    await TryHandleAsync(context,
                                     new WebApiErrorHandlingConflictExceptionMapper(),
                                     new WebApiErrorHandlingConflictException(
                                     apiAttribute.Message,
@@ -97,7 +97,7 @@ namespace AtEase.AspNetCore.Extensions.Middleware
                         apiValidationExceptionAttribute.Message = exception.Message;
                     }
 
-                    await TryHandle(context,
+                    await TryHandleAsync(context,
                                     new ArgumentExceptionMapper(),
                                     new ArgumentException(apiValidationExceptionAttribute.Message,
                                                           apiValidationExceptionAttribute.FieldName));
@@ -109,11 +109,11 @@ namespace AtEase.AspNetCore.Extensions.Middleware
             }
         }
 
-        private async Task TryHandle(HttpContext context, WebApiErrorHandlingMapper mapper, Exception exception)
+        private async Task TryHandleAsync(HttpContext context, WebApiErrorHandlingMapper mapper, Exception exception)
         {
             if (mapper.CanHandle(exception))
             {
-                await SetResponseAndLogContent(_logger,
+                await SetResponseAndLogContentAsync(_logger,
                                                context.Response,
                                                mapper.GetStatusCode(),
                                                mapper.GetReasonPhrase(),
@@ -125,7 +125,7 @@ namespace AtEase.AspNetCore.Extensions.Middleware
             }
         }
 
-        public static Task SetResponseAndLogContent(ILogger logger,
+        public static Task SetResponseAndLogContentAsync(ILogger logger,
                                                     HttpResponse httpResponse,
                                                     HttpStatusCode statusCode,
                                                     string reasonPhrase,

@@ -11,7 +11,7 @@ namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling
             _badRequestMappers ?? (_badRequestMappers = new List<WebApiErrorHandlingMapper>());
 
 
-        public void MapBadRequest(WebApiErrorHandlingMapper mapper)
+        public void Map(WebApiErrorHandlingMapper mapper)
         {
             Mappers.Add(mapper);
         }
@@ -28,17 +28,17 @@ namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling
 
         public static void CatchArgumentException(this WebApiErrorHandlingConfig config)
         {
-            config.MapBadRequest(new ArgumentExceptionMapper());
+            config.Map(new ArgumentExceptionMapper());
         }
 
         public static void CatchArgumentNullException(this WebApiErrorHandlingConfig config)
         {
-            config.MapBadRequest(new ArgumentNullExceptionMapper());
+            config.Map(new ArgumentNullExceptionMapper());
         }
 
         public static void CatchArgumentOutOfRangeException(this WebApiErrorHandlingConfig config)
         {
-            config.MapBadRequest(new ArgumentOutOfRangeExceptionMapper());
+            config.Map(new ArgumentOutOfRangeExceptionMapper());
         }
     }
 }
