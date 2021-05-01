@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace AtEase.AspNetCore.Extensions.Middleware
+namespace AtEase.AspNetCore.ApiErrorHandling
 {
     public static class GlobalErrorHandlingMiddlewareExtension
     {

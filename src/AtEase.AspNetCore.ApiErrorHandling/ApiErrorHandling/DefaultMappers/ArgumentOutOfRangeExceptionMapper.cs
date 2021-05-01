@@ -2,18 +2,19 @@
 using AtEase.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling.DefaultMappers
+namespace AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling
 {
-    public class ArgumentExceptionMapper : WebApiErrorHandlingBadRequestMapper
+    public class ArgumentOutOfRangeExceptionMapper : WebApiErrorHandlingBadRequestMapper
     {
         public override bool CanHandle(Exception exception)
         {
-            return exception.GetType() == typeof(ArgumentException);
+            return exception.GetType() == typeof(ArgumentOutOfRangeException);
         }
 
         public override object CreateContent(Exception exception)
         {
-            var ex = (ArgumentException) exception;
+            var ex = (ArgumentOutOfRangeException) exception;
+
 
             if (ex.ParamName.IsNotNullOrEmptyOrWhiteSpace())
             {

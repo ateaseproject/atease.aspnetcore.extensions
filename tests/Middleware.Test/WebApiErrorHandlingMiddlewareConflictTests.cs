@@ -34,7 +34,7 @@ namespace Middleware.Test
             var streamText = reader.ReadToEnd();
 
 
-            var expected = JToken.Parse(result.ToJson());
+            var expected = JToken.Parse(result.SerializeToJson());
             var actual   = JToken.Parse(streamText);
 
 
@@ -72,7 +72,7 @@ namespace Middleware.Test
             var streamText = reader.ReadToEnd();
 
 
-            var expected = JToken.Parse(result.ToJson());
+            var expected = JToken.Parse(result.SerializeToJson());
             var actual   = JToken.Parse(streamText);
 
 
@@ -110,7 +110,7 @@ namespace Middleware.Test
             var streamText = reader.ReadToEnd();
 
 
-            var expected = JToken.Parse(result.ToJson());
+            var expected = JToken.Parse(result.SerializeToJson());
             var actual   = JToken.Parse(streamText);
 
 
@@ -151,7 +151,7 @@ namespace Middleware.Test
             var streamText = reader.ReadToEnd();
 
 
-            var expected = JToken.Parse(result.ToJson());
+            var expected = JToken.Parse(result.SerializeToJson());
             var actual   = JToken.Parse(streamText);
 
 
@@ -190,7 +190,7 @@ namespace Middleware.Test
             var streamText = reader.ReadToEnd();
 
 
-            var expected = JToken.Parse(result.ToJson());
+            var expected = JToken.Parse(result.SerializeToJson());
             var actual   = JToken.Parse(streamText);
 
 

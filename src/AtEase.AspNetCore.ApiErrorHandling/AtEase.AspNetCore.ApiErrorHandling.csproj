@@ -2,22 +2,23 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
-    <RootNamespace>AtEase.AspNetCore.Extensions.Middleware</RootNamespace>
+    <RootNamespace>AtEase.AspNetCore.ApiErrorHandling</RootNamespace>
     <PackageId>AtEase.AspNetCore.Extensions.Middleware</PackageId>
     <Authors>Ahmad.Chehreghani, MohammadMahdi.Sadeghi</Authors>
-    <Company>ease</Company>
+    <Company>atease</Company>
     <Product>@ease</Product>
     <PackageProjectUrl>https://github.com/ateaseproject/atease.aspnetcore.extensions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ateaseproject/atease.aspnetcore.extensions</RepositoryUrl>
     <Version>1.3.0</Version>
     <PackageTags>atease, exception, argument,argumentexception</PackageTags>
+    <AssemblyName>AtEase.AspNetCore.ApiErrorHandling</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AtEase.Newtonsoft.Json" Version="1.0.2" />
+    <PackageReference Include="AtEase.Newtonsoft.Json" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

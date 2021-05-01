@@ -2,7 +2,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling.DefaultMappers
+namespace AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling
 {
     public abstract class WebApiErrorHandlingMapper
     {

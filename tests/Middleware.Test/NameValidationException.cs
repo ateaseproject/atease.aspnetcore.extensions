@@ -1,5 +1,5 @@
 ﻿using System;
-using AtEase.AspNetCore.Extensions.Middleware;
+using AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling.Attributes;
 
 namespace Middleware.Test
 {

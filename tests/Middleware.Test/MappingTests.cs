@@ -4,20 +4,18 @@ using System.Net;
 using System.Threading.Tasks;
 using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
 using AtEase.Extensions;
-using AtEase.Newtonsoft.Json;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json.Linq;
 using Xunit;
+using AtEase.Newtonsoft.Json;
 
 namespace Middleware.Test
 {
     public class MappingTests
     {
-  [Fact]
+        [Fact]
         public async Task when_ArgumentException_raised_it_should_BadRequest_http_status_code()
         {
             const string fieldName = "CatchArgumentException";
@@ -48,7 +46,7 @@ namespace Middleware.Test
             var streamText = reader.ReadToEnd();
 
 
-            var expected = JToken.Parse(result.ToJson());
+            var expected = JToken.Parse(result.SerializeToJson());
             var actual = JToken.Parse(streamText);
 
 
@@ -122,7 +120,7 @@ namespace Middleware.Test
             var streamText = reader.ReadToEnd();
 
 
-            var expected = JToken.Parse(result.ToJson());
+            var expected = JToken.Parse(result.SerializeToJson());
             var actual = JToken.Parse(streamText);
 
 
@@ -149,42 +147,36 @@ namespace Middleware.Test
             var result = badRequestController.GetBadRequestWithModelState(modelState);
 
             var config = new WebApiErrorHandlingConfig();
-            
+
 
             config.CatchArgumentNullException();
 
 
             var middleware =
-            TestHelper.BuildWebApiErrorHandlingMiddleware(innerHttpContext =>
-                                                              throw new ArgumentNullException(fieldName,
-                                                                  error),
-                                                          config);
-        var context = new DefaultHttpContext();
-        context.Response.Body = new MemoryStream();
+                TestHelper.BuildWebApiErrorHandlingMiddleware(innerHttpContext =>
+                                                                  throw new ArgumentNullException(fieldName,
+                                                                      error),
+                                                              config);
+            var context = new DefaultHttpContext();
+            context.Response.Body = new MemoryStream();
 
-        await middleware.Invoke(context);
+            await middleware.Invoke(context);
 
-        context.Response.Body.Seek(0,
+            context.Response.Body.Seek(0,
                                        SeekOrigin.Begin);
             var reader = new StreamReader(context.Response.Body);
-        var streamText = reader.ReadToEnd();
+            var streamText = reader.ReadToEnd();
 
 
-        var expected = JToken.Parse(result.ToJson());
-        var actual = JToken.Parse(streamText);
+            var expected = JToken.Parse(result.SerializeToJson());
+            var actual = JToken.Parse(streamText);
 
 
-        Assert.Equal(HttpStatusCode.BadRequest,
-                     context.Response.StatusCode.AsEnum<HttpStatusCode>());
+            Assert.Equal(HttpStatusCode.BadRequest,
+                         context.Response.StatusCode.AsEnum<HttpStatusCode>());
 
             Assert.True(JToken.DeepEquals(actual,
                                           expected));
         }
-
-}
-
-
-
-
-
+    }
 }

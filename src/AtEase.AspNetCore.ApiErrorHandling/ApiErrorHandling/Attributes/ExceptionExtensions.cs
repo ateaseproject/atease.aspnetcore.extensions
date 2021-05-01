@@ -2,7 +2,7 @@
 using System.Linq;
 using AtEase.Extensions;
 
-namespace AtEase.AspNetCore.Extensions.Middleware
+namespace AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling.Attributes
 {
     public static class ExceptionExtensions
     {

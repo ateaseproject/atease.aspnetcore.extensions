@@ -2,7 +2,7 @@
 using AtEase.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling.DefaultMappers
+namespace AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling
 {
     public class ArgumentNullExceptionMapper : ArgumentExceptionMapper
     {

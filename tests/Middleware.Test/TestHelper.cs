@@ -1,4 +1,4 @@
-using AtEase.AspNetCore.Extensions.Middleware;
+using AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling;
 using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
 using Microsoft.AspNetCore.Http;
 
@@ -7,7 +7,8 @@ namespace Middleware.Test
     public static class TestHelper
     {
         public static WebApiErrorHandlingMiddleware BuildWebApiErrorHandlingMiddleware(
-        RequestDelegate next, WebApiErrorHandlingConfig config)
+        RequestDelegate next,
+        WebApiErrorHandlingConfig config)
         {
             return new WebApiErrorHandlingMiddleware(next,
                                                      new FakeLogger(),

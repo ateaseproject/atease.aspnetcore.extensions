@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AtEase.AspNetCore.Extensions.Middleware
+namespace AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class WebApiConflictAttribute : Attribute

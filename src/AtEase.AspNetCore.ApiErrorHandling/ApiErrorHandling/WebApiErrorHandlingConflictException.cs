@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling
+namespace AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling
 {
     public class WebApiErrorHandlingConflictException : Exception
     {

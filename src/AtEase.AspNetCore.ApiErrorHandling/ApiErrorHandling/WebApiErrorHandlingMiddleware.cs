@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling.Attributes;
 using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling;
-using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling.DefaultMappers;
 using AtEase.Extensions;
 using AtEase.Newtonsoft.Json;
 using Microsoft.AspNetCore.Builder;
@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
 
-namespace AtEase.AspNetCore.Extensions.Middleware
+namespace AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling
 {
     public static class WebApiErrorHandlingMiddlewareExtensions
     {
@@ -63,10 +63,10 @@ namespace AtEase.AspNetCore.Extensions.Middleware
                         if (exceptionHandled)
                         {
                             await SetResponseAndLogContentAsync(_logger,
-                                                           context.Response,
-                                                           mapper.GetStatusCode(),
-                                                           mapper.GetReasonPhrase(),
-                                                           mapper.CreateContent(exception));
+                                                                context.Response,
+                                                                mapper.GetStatusCode(),
+                                                                mapper.GetReasonPhrase(),
+                                                                mapper.CreateContent(exception));
                         }
                     }
                 }
@@ -85,10 +85,10 @@ namespace AtEase.AspNetCore.Extensions.Middleware
                     }
 
                     await TryHandleAsync(context,
-                                    new WebApiErrorHandlingConflictExceptionMapper(),
-                                    new WebApiErrorHandlingConflictException(
-                                    apiAttribute.Message,
-                                    apiAttribute.ErrorCode));
+                                         new WebApiErrorHandlingConflictExceptionMapper(),
+                                         new WebApiErrorHandlingConflictException(
+                                         apiAttribute.Message,
+                                         apiAttribute.ErrorCode));
                 }
                 else if (exception.TryGetWebApiBadRequestAttribute(out var apiValidationExceptionAttribute))
                 {
@@ -98,9 +98,9 @@ namespace AtEase.AspNetCore.Extensions.Middleware
                     }
 
                     await TryHandleAsync(context,
-                                    new ArgumentExceptionMapper(),
-                                    new ArgumentException(apiValidationExceptionAttribute.Message,
-                                                          apiValidationExceptionAttribute.FieldName));
+                                         new ArgumentExceptionMapper(),
+                                         new ArgumentException(apiValidationExceptionAttribute.Message,
+                                                               apiValidationExceptionAttribute.FieldName));
                 }
                 else
                 {
@@ -114,10 +114,10 @@ namespace AtEase.AspNetCore.Extensions.Middleware
             if (mapper.CanHandle(exception))
             {
                 await SetResponseAndLogContentAsync(_logger,
-                                               context.Response,
-                                               mapper.GetStatusCode(),
-                                               mapper.GetReasonPhrase(),
-                                               mapper.CreateContent(exception));
+                                                    context.Response,
+                                                    mapper.GetStatusCode(),
+                                                    mapper.GetReasonPhrase(),
+                                                    mapper.CreateContent(exception));
             }
             else
             {
@@ -126,12 +126,12 @@ namespace AtEase.AspNetCore.Extensions.Middleware
         }
 
         public static Task SetResponseAndLogContentAsync(ILogger logger,
-                                                    HttpResponse httpResponse,
-                                                    HttpStatusCode statusCode,
-                                                    string reasonPhrase,
-                                                    object content)
+                                                         HttpResponse httpResponse,
+                                                         HttpStatusCode statusCode,
+                                                         string reasonPhrase,
+                                                         object content)
         {
-            var result = content.ToJson();
+            var result = content.SerializeToJson();
             logger.LogDebug(result);
 
             httpResponse.ContentType = "application/json";

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling.DefaultMappers
+namespace AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling
 {
     public abstract class WebApiErrorHandlingBadRequestMapper : WebApiErrorHandlingMapper
     {

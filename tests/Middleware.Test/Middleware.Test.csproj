@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AtEase" Version="1.0.18.2" />
+    <PackageReference Include="AtEase.Newtonsoft.Json" Version="1.0.3" />
     <PackageReference Include="fluentassertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
@@ -21,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Middleware\Middleware.csproj" />
+    <ProjectReference Include="..\..\src\AtEase.AspNetCore.ApiErrorHandling\AtEase.AspNetCore.ApiErrorHandling.csproj" />
   </ItemGroup>
 
 </Project>

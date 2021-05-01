@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Middleware", "src\Middleware\Middleware.csproj", "{7F650E14-9585-4D64-ACC7-50B4C449AF8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtEase.AspNetCore.ApiErrorHandling", "src\AtEase.AspNetCore.ApiErrorHandling\AtEase.AspNetCore.ApiErrorHandling.csproj", "{7F650E14-9585-4D64-ACC7-50B4C449AF8D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Middleware.Test", "tests\Middleware.Test\Middleware.Test.csproj", "{845DC8CE-B5FE-48A9-9ACE-BAB669799363}"
 EndProject

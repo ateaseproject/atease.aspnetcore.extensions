@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling.DefaultMappers;
+using AtEase.AspNetCore.ApiErrorHandling.ApiErrorHandling;
 
 namespace AtEase.AspNetCore.Extensions.Middleware.ApiErrorHandling
 {
